@@ -14,7 +14,17 @@ class Recent(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def recent(self, ctx, *, user_input):
+    async def recent(self, ctx, *, user_input: str = None):
+        if user_input is None:
+
+            response = "**```\n"
+            response += f"!recent hämtar senaste '5' cloggarna från collectionlog.net\n"
+            response += f"För att kommandot ska fungera måste kontots loggar vara uppladdat till collectionlog.net (runlite plugin)\n"
+            response += f"\nExempel: !recent USERNAME"
+            response += f"\nDu skrev: !recent {user_input}"
+            response += "```**"
+            await ctx.send(response)
+            return
         url = f'https://api.collectionlog.net/items/recent/{user_input}'
         response = requests.get(url).json()
         items = response.get("items", [])  # Get the list of items from the response
